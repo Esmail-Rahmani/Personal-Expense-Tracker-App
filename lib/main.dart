@@ -10,8 +10,8 @@ import 'features/personal_expense_tracker/presentation/screens/main_page.dart';
 void main() {
 
   runApp(ChangeNotifierProvider(
-    create: (context) => ExpensesProvider(),
-    child: Consumer<ExpensesProvider>(
+    create: (context) => ExpenseProvider(),
+    child: Consumer<ExpenseProvider>(
         builder: (context, provider, child) {
           return ResponsiveSizer(
               builder: (context, orientation, screenType) {
