@@ -27,13 +27,13 @@ class DatabaseProvider {
   }
 
   Future<void> _createDatabase(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE expenses (
-        id INTEGER PRIMARY KEY,
-        amount REAL,
-        description TEXT,
-        date TEXT
-      )
-    ''');
+    // await db.execute('''
+    //   CREATE TABLE expenses (
+    //     id INTEGER PRIMARY KEY,
+    //     amount REAL,
+    //     description TEXT,
+    //     date TEXT
+    //   )
+    // ''');
   }
 }

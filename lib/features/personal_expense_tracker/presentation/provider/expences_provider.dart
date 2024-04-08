@@ -11,7 +11,6 @@ class ExpenseProvider extends ChangeNotifier {
   ExpenseProvider() {
     _initDatabase();
   }
-
   Future<void> _initDatabase() async {
     String path = join(await getDatabasesPath(), 'expense_tracker.db');
     _database = await openDatabase(
@@ -19,12 +18,11 @@ class ExpenseProvider extends ChangeNotifier {
       version: 1,
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE expenses(id INTEGER PRIMARY KEY, amount REAL, description TEXT, date TEXT)',
+          'CREATE TABLE expenses(id INTEGER PRIMARY KEY, amount REAL, description TEXT, date TEXT, category TEXT)',
         );
       },
     );
   }
-
   Future<List<Expense>> getExpenses() async {
     final List<Map<String, dynamic>> maps = await _database.query('expenses');
     return List.generate(maps.length, (i) {
@@ -33,6 +31,7 @@ class ExpenseProvider extends ChangeNotifier {
         amount: maps[i]['amount'],
         description: maps[i]['description'],
         date: maps[i]['date'],
+        category: maps[i]['category'],
       );
     });
   }
@@ -46,7 +45,15 @@ class ExpenseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Add other CRUD operations as needed
+  Future<void> updateExpense(Expense expense) async {
+    await _database.update(
+      'expenses',
+      expense.toJson(),
+      where: 'id = ?',
+      whereArgs: [expense.id],
+    );
+    notifyListeners();
+  }
 
   Future<void> deleteExpense(int id) async {
     await _database.delete(
