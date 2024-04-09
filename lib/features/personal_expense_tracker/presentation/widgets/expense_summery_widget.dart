@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ExpenseSummaryWidget extends StatelessWidget {
+  final double dailyExpenses,  weeklyExpenses,  monthlyExpenses;
+  ExpenseSummaryWidget(this.dailyExpenses, this.weeklyExpenses, this.monthlyExpenses);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,9 +16,29 @@ class ExpenseSummaryWidget extends StatelessWidget {
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.0),
-          Text('Category 1: \$500'),
-          Text('Category 2: \$300'),
-          Text('Category 3: \$200'),
+          Row(
+            children: [
+              Column(
+                children: [
+                  Text('Daily'),
+                  Text("${dailyExpenses}"),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('weekly'),
+                  Text("${weeklyExpenses}"),
+                ],
+              ),
+              Column(
+                children: [
+                  Text('monthly'),
+                  Text("${monthlyExpenses}"),
+                ],
+              ),
+            ],
+          ),
+
           // Add more categories as needed
         ],
       ),

@@ -5,6 +5,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/add_expense_widget.dart';
+import 'expenses_list_page.dart';
 import 'home_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -19,12 +20,10 @@ class _MainPageState extends State<MainPage> {
 
   List _pages = [
     HomePage(),
+    ExpensesPage(),
+    AddExpensePage(),
     Center(
       child: Text("Products"),
-    ),
-    AddExpenseWidget(),
-    Center(
-      child: Text("Contact"),
     ),
     Center(
       child: Text("Settings"),
@@ -40,7 +39,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      // appBar: AppBar(),
       body: _pages[_selectedTab],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedTab,

@@ -2,17 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'common/routing/routes.dart';
+import 'features/personal_expense_tracker/data/datasources/database.dart';
 import 'features/personal_expense_tracker/presentation/provider/expences_provider.dart';
 import 'features/personal_expense_tracker/presentation/screens/main_page.dart';
 
-void main() {
+void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  final DatabaseProvider databaseProvider = DatabaseProvider.instance;
+  Database database = await databaseProvider.database;
+
+  // runApp(MyApp(databaseProvider: databaseProvider));
 
   runApp(ChangeNotifierProvider(
-    create: (context) => ExpenseProvider(),
+    create: (context) => ExpenseProvider(database),
     child: Consumer<ExpenseProvider>(
         builder: (context, provider, child) {
+
           return ResponsiveSizer(
               builder: (context, orientation, screenType) {
                 return MediaQuery(

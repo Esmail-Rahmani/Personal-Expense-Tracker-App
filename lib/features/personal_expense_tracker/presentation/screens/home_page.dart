@@ -1,10 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../provider/expences_provider.dart';
 import '../widgets/add_expense_widget.dart';
 import '../widgets/expense_summery_widget.dart';
-import '../widgets/view_expense_widget.dart';
+import '../widgets/expenses_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,6 +16,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+
+  late ExpenseProvider expenseProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    expenseProvider = Provider.of<ExpenseProvider>(context, listen: false);
+    fetchDataFromProvider();
+  }
+
+  Future<void> fetchDataFromProvider() async {
+    await expenseProvider.getAllExpenses();
+    DateTime startYesterday = DateTime.now().subtract(Duration(days: 1));
+
+    await expenseProvider.calculateTotalExpenses(startYesterday,DateTime.now());
+    setState(() {
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,14 +47,20 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 16.0),
+            ExpenseSummaryWidget(expenseProvider.dailyExpenses,expenseProvider.weeklyExpenses,expenseProvider.monthlyExpenses),
             Text(
               'Your Expenses',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(
-                height: 60.h,
-                child: ViewExpensesWidget()),
-            ExpenseSummaryWidget(),
+                height: 45.h,
+                child: ExpenseListWidget(
+                  length: 3,
+                  expenses: expenseProvider.expenses,
+                  onChanged: () {
+                    setState(() {});
+                  },
+                )),
           ],
         ),
       ),
