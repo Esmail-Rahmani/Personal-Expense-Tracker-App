@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../widgets/add_expense_widget.dart';
 import 'expenses_list_page.dart';
 import 'home_page.dart';
+import 'local_notification_settings.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -25,9 +26,7 @@ class _MainPageState extends State<MainPage> {
     Center(
       child: Text("Products"),
     ),
-    Center(
-      child: Text("Settings"),
-    ),
+    SetReminderPage(),
   ];
 
   _changeTab(int index) {

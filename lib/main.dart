@@ -6,14 +6,24 @@ import 'package:sqflite/sqflite.dart';
 
 import 'common/routing/routes.dart';
 import 'features/personal_expense_tracker/data/datasources/database.dart';
+import 'features/personal_expense_tracker/data/datasources/local_notification.dart';
 import 'features/personal_expense_tracker/presentation/provider/expences_provider.dart';
 import 'features/personal_expense_tracker/presentation/screens/main_page.dart';
 
+//If you just want the latest
+import 'package:timezone/data/latest_all.dart' as tz;
+
 void main() async{
 
+
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
+
   final DatabaseProvider databaseProvider = DatabaseProvider.instance;
   Database database = await databaseProvider.database;
+  NotificationService notificationService = NotificationService();
+
+  notificationService.initializeNotifications();
 
   // runApp(MyApp(databaseProvider: databaseProvider));
 
