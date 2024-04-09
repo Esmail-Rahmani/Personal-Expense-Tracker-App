@@ -1,66 +1,66 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 import '../../data/models/expences.dart';
+import '../../domain/repositories/expenses_repositories.dart';
 
 class ExpenseProvider extends ChangeNotifier {
-  late Database _database;
+  late ExpenseRepository _repository;
 
-  ExpenseProvider() {
-    _initDatabase();
+  ExpenseProvider(Database database) {
+    _repository = ExpenseRepository(database);
   }
-  Future<void> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'expense_tracker.db');
-    _database = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, version) {
-        return db.execute(
-          'CREATE TABLE expenses(id INTEGER PRIMARY KEY, amount REAL, description TEXT, date TEXT, category TEXT)',
-        );
-      },
-    );
-  }
-  Future<List<Expense>> getExpenses() async {
-    final List<Map<String, dynamic>> maps = await _database.query('expenses');
-    return List.generate(maps.length, (i) {
-      return Expense(
-        id: maps[i]['id'],
-        amount: maps[i]['amount'],
-        description: maps[i]['description'],
-        date: maps[i]['date'],
-        category: maps[i]['category'],
-      );
-    });
+
+  List<Expense> _expenses = [];
+
+  List<Expense> get expenses => _expenses;
+
+  Future<void> getAllExpenses() async {
+    _expenses = await _repository.getAllExpenses();
+    notifyListeners();
   }
 
   Future<void> addExpense(Expense expense) async {
-    await _database.insert(
-      'expenses',
-      expense.toJson(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-    notifyListeners();
+    await _repository.addExpense(expense);
+    await getAllExpenses(); // Refresh expenses after adding
   }
 
   Future<void> updateExpense(Expense expense) async {
-    await _database.update(
-      'expenses',
-      expense.toJson(),
-      where: 'id = ?',
-      whereArgs: [expense.id],
-    );
-    notifyListeners();
+    await _repository.updateExpense(expense);
+    await getAllExpenses(); // Refresh expenses after updating
   }
 
   Future<void> deleteExpense(int id) async {
-    await _database.delete(
-      'expenses',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    await _repository.deleteExpense(id);
+    await getAllExpenses(); // Refresh expenses after deleting
+  }
+
+  Future<void> getFilteredExpenses(String filter) async {
+    _expenses = await _repository.getFilteredExpenses(filter);
+    notifyListeners();
+  }
+
+
+
+  double _dailyExpenses = 0.0;
+  double _weeklyExpenses = 0.0;
+  double _monthlyExpenses = 0.0;
+
+  double get dailyExpenses => _dailyExpenses;
+  double get weeklyExpenses => _weeklyExpenses;
+  double get monthlyExpenses => _monthlyExpenses;
+
+  Future<void> calculateTotalExpenses(DateTime startDate, DateTime endDate) async {
+    _dailyExpenses = await _repository.getTotalExpenses(startDate, endDate);
+
+    final DateTime startOfWeek =
+    DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1));
+    _weeklyExpenses = await _repository.getTotalExpenses(startOfWeek, DateTime.now());
+
+    final DateTime startOfMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
+    _monthlyExpenses = await _repository.getTotalExpenses(startOfMonth, DateTime.now());
+
     notifyListeners();
   }
 }

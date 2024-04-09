@@ -14,13 +14,25 @@ class Expense {
   });
 
   // Additional methods
-  Map<String, Object> toJson() => {
-    'id': id,
-    'amount': amount,
-    'date': date.toIso8601String(), // Convert DateTime to ISO 8601 format
-    'description': description,
-    'category': category,
-  };
+  Map<String, Object> toJson({bool includeId = true}) {
+    if(includeId){
+      return {
+        'id':id,
+        'amount': amount,
+        'date': date.toIso8601String(), // Convert DateTime to ISO 8601 format
+        'description': description,
+        'category': category,
+      };
+    }else{
+      return {
+        'amount': amount,
+        'date': date.toIso8601String(), // Convert DateTime to ISO 8601 format
+        'description': description,
+        'category': category,
+      };
+    }
+
+  }
 
   factory Expense.fromJson(Map<String, dynamic> json) => Expense(
     id: json['id'] as int,
