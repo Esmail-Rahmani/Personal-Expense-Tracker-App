@@ -17,6 +17,7 @@ class ExpenseSummaryWidget extends StatelessWidget {
           ),
           SizedBox(height: 8.0),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Column(
                 children: [

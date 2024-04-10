@@ -11,6 +11,8 @@ class DatabaseProvider {
   static Database? _database;
 
   Future<Database> get database async {
+    print("creating database");
+
     if (_database != null) return _database!;
 
     _database = await _initDatabase();
@@ -22,18 +24,19 @@ class DatabaseProvider {
     return await openDatabase(
       path,
       version: _databaseVersion,
-      onCreate: _createDatabase,
+      onCreate: createDatabase,
     );
   }
 
-  Future<void> _createDatabase(Database db, int version) async {
-    // await db.execute('''
-    //   CREATE TABLE expenses (
-    //     id INTEGER PRIMARY KEY,
-    //     amount REAL,
-    //     description TEXT,
-    //     date TEXT
-    //   )
-    // ''');
+  Future<void> createDatabase(Database db, int version) async {
+    print("creating table");
+    await db.execute('''
+      CREATE TABLE expenses (
+        id INTEGER PRIMARY KEY,
+        amount REAL,
+        description TEXT,
+        date TEXT
+      )
+    ''');
   }
 }
