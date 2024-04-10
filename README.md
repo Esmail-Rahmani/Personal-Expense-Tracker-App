@@ -1,16 +1,38 @@
-# personal_expense_tracker_app
+# Personal Expense Tracker App
 
-A new Flutter project.
+This is a simple expense tracker app built with Flutter. It helps users track their personal expenses easily.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Add, edit, and delete expenses.
+- Categorize expenses.
+- View expense history.
+- Visualize expenses with charts.
 
-A few resources to get you started if this is your first Flutter project:
+## Usage
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+To use this app, follow these steps:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/Esmail-Rahmani/Personal-Expense-Tracker-App.git
+    ```
+
+2. Navigate to the project directory:
+
+    ```bash
+    cd Personal-Expense-Tracker-App
+    ```
+
+3. Install dependencies:
+
+    ```bash
+    flutter pub get
+    ```
+
+4. Run the app:
+
+    ```bash
+    flutter run
+    ```
