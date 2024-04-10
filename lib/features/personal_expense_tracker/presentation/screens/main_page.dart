@@ -53,7 +53,7 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.category_outlined), label: "categorid"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.stacked_line_chart_rounded), label: "Statistics"),
+              icon: Icon(Icons.notification_add), label: "notification"),
         ],
       ),
     );

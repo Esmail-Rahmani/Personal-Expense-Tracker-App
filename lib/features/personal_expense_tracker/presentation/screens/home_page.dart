@@ -48,14 +48,17 @@ class _HomePageState extends State<HomePage> {
           children: [
             SizedBox(height: 16.0),
             ExpenseSummaryWidget(expenseProvider.dailyExpenses,expenseProvider.weeklyExpenses,expenseProvider.monthlyExpenses),
-            Text(
-              'Your Expenses',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Your Expenses',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
             ),
-            SizedBox(
+            if(expenseProvider.expenses.length>0)SizedBox(
                 height: 45.h,
                 child: ExpenseListWidget(
-                  length: 3,
+                  length: expenseProvider.expenses.length>3?3:expenseProvider.expenses.length,
                   expenses: expenseProvider.expenses,
                   onChanged: () {
                     setState(() {});

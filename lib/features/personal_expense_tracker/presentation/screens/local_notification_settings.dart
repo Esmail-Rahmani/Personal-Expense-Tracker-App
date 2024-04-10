@@ -41,7 +41,7 @@ class _SetReminderPageState extends State<SetReminderPage> {
             Text('Select a time for reminder:'),
             TextButton(
               onPressed: _selectTime,
-              child: Text(_selectedTime.toString() ?? 'Select Time'),
+              child: Text("${_selectedTime ?? 'Select Time'}"),
             ),
             ElevatedButton(
               onPressed: _setReminder,
